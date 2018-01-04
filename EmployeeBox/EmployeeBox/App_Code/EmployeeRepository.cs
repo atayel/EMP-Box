@@ -14,6 +14,8 @@ namespace EmployeeBox.App_Code
         public EmployeeRepository()
         {
             _db = new SqlConnection(ConnectionClass._connection);
+            _com = new SqlCommand();
+            _com.Connection = _db;
         }
 
         internal void Dispose()
@@ -30,11 +32,12 @@ namespace EmployeeBox.App_Code
                 _com = new SqlCommand(@"INSERT INTO Employees
                       (NationalID, Name, BirthDate, Address, PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID)
                         VALUES     (" + model.NationalID + ",'" + model.Name + "'," + model.BirthDate + ",'" + model.Address + "'," +
-                        model.PhoneNumber + ",'" + model.Photo + "'," + model.HireDate + "," + model.JoinDate + ","+ model.EmployeeStateLogID +")",_db);
+                        model.PhoneNumber + ",'" + model.Photo + "'," + model.HireDate + "," + model.JoinDate + "," + model.EmployeeStateLogID + ")", _db);
                 _db.Open();
                 _com.ExecuteNonQuery();
                 _db.Close();
-                return new ContextState {
+                return new ContextState
+                {
                     State = true
                 };
             }
@@ -160,13 +163,13 @@ namespace EmployeeBox.App_Code
             return model;
         }
 
-        internal IEnumerable<Employee> List(int? page = 1 , int? pageSize = 10)
+        internal IEnumerable<Employee> List(int? page = 1, int? pageSize = 10)
         {
             List<Employee> _list = new List<Employee>();
             SqlCommand _com = new SqlCommand(@"SELECT     EmployeeID, NationalID, Name, BirthDate,
             Address, PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID
             FROM         Employees
-            WHERE     EmployeeID BETWEEN ((" + page + " -1 ) * " + pageSize + " + 1)  AND (" + page + " * " + pageSize + ")",_db);
+            WHERE     EmployeeID BETWEEN ((" + page + " -1 ) * " + pageSize + " + 1)  AND (" + page + " * " + pageSize + ")", _db);
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader();
             if (_dr.HasRows)
@@ -193,8 +196,8 @@ namespace EmployeeBox.App_Code
 
         internal IEnumerable<Employee> List(string employeeName = null,
             decimal? nationalID = default(decimal?),
-            DateTime? hireDateFrom = default(DateTime?),DateTime? hireDateTo = default(DateTime?),
-            DateTime? joinDateFrom = default(DateTime?),DateTime? joinDateTo = default(DateTime?),
+            DateTime? hireDateFrom = default(DateTime?), DateTime? hireDateTo = default(DateTime?),
+            DateTime? joinDateFrom = default(DateTime?), DateTime? joinDateTo = default(DateTime?),
             double? employeeShareFrom = default(double?), double? employeeShareTo = default(double?),
             int? employeeEducation = 0, int? page = 1, int? pageSize = 10)
         {
@@ -207,13 +210,13 @@ FROM         Employees LEFT JOIN
             WHERE     Employees.EmployeeID BETWEEN ((" + page + " -1 ) * " + pageSize + " +1)  AND (" + page + " * " + pageSize + ")";
 
             if (employeeName != string.Empty)
-                _query += @" AND ( Employees.Name LIKE '%" + employeeName +"%' )";
+                _query += @" AND ( Employees.Name LIKE '%" + employeeName + "%' )";
 
             if (nationalID > 0)
                 _query += @" AND ( Employees.NationalID  LIKE %" + nationalID + "% )";
 
             if (hireDateFrom != null && hireDateTo != null)
-                _query += @" AND ( Employees.HireDate >= '" + hireDateFrom + "' AND  Employees.HireDate <= '" + hireDateTo +"')";
+                _query += @" AND ( Employees.HireDate >= '" + hireDateFrom + "' AND  Employees.HireDate <= '" + hireDateTo + "')";
             else if (hireDateFrom != null && hireDateTo == null)
                 _query += @" AND ( Employees.HireDate >= '" + hireDateFrom + "')";
 
@@ -223,15 +226,15 @@ FROM         Employees LEFT JOIN
                 _query += @"AND ( Employees.JoinDate >= '" + joinDateFrom + "')";
 
             if (employeeEducation > 0)
-                _query += @" AND (EducationalQualifications.EducationalQualificationID = " + employeeEducation +")";
+                _query += @" AND (EducationalQualifications.EducationalQualificationID = " + employeeEducation + ")";
 
             if (employeeShareFrom > 0 && employeeShareTo > 0)
-                _query += @"AND     (EmployeeShares.PersonalShare >=  "+ employeeShareFrom + " AND EmployeeShares.PersonalShare <= "+ employeeShareTo +")";
+                _query += @"AND     (EmployeeShares.PersonalShare >=  " + employeeShareFrom + " AND EmployeeShares.PersonalShare <= " + employeeShareTo + ")";
             else if (employeeShareFrom > 0 && employeeShareTo <= 0)
                 _query += @" AND     (EmployeeShares.PersonalShare >=  " + employeeShareFrom + ")";
 
             List<Employee> _list = new List<Employee>();
-            SqlCommand _com = new SqlCommand(_query,_db);
+            SqlCommand _com = new SqlCommand(_query, _db);
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader();
             if (_dr.HasRows)
@@ -262,7 +265,7 @@ FROM         Employees LEFT JOIN
             var model = new Employee();
             SqlCommand _com = new SqlCommand(@"SELECT     EmployeeID, NationalID, Name, BirthDate, Address,
                 PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID FROM         Employees
-                WHERE     (NationalID = " + nationalID + " AND Name = '"+ emplyeeName +"')",_db);
+                WHERE     (NationalID = " + nationalID + " AND Name = '" + emplyeeName + "')", _db);
 
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader(CommandBehavior.SingleRow);
@@ -278,7 +281,7 @@ FROM         Employees LEFT JOIN
         {
             List<EducationalQualification> _list = new List<EducationalQualification>();
             SqlCommand _com = new SqlCommand(@"SELECT     EducationalQualificationID, EducationalQualificationName
-FROM         EducationalQualifications",_db);
+FROM         EducationalQualifications", _db);
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader();
             if (_dr.HasRows)
