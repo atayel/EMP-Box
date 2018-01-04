@@ -134,6 +134,7 @@ namespace EmployeeBox.App_Code
         }
         #endregion
 
+        #region Find_Functions
         internal Employee Find(int id)
         {
             var model = new Employee();
@@ -163,7 +164,9 @@ namespace EmployeeBox.App_Code
 
             return model;
         }
+        #endregion
 
+        #region List_Functions
         internal IEnumerable<Employee> List(int? page = 1, int? pageSize = 10)
         {
             List<Employee> _list = new List<Employee>();
@@ -260,24 +263,6 @@ FROM         Employees LEFT JOIN
             return _list;
         }
 
-        internal bool IsExist(string emplyeeName = null, decimal? nationalID = default(decimal?))
-        {
-            bool _exist = false;
-            var model = new Employee();
-            SqlCommand _com = new SqlCommand(@"SELECT     EmployeeID, NationalID, Name, BirthDate, Address,
-                PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID FROM         Employees
-                WHERE     (NationalID = " + nationalID + " AND Name = '" + emplyeeName + "')", _db);
-
-            _db.Open();
-            SqlDataReader _dr = _com.ExecuteReader(CommandBehavior.SingleRow);
-            if (_dr.HasRows)
-                _exist = true;
-
-            _dr.Close();
-            _db.Close();
-            return _exist;
-        }
-
         internal IEnumerable<EducationalQualification> EducationalQualificationList()
         {
             List<EducationalQualification> _list = new List<EducationalQualification>();
@@ -299,5 +284,26 @@ FROM         EducationalQualifications", _db);
             _db.Close();
             return _list;
         }
+        #endregion
+
+        #region IsExist
+        internal bool IsExist(string emplyeeName = null, decimal? nationalID = default(decimal?))
+        {
+            bool _exist = false;
+            var model = new Employee();
+            SqlCommand _com = new SqlCommand(@"SELECT     EmployeeID, NationalID, Name, BirthDate, Address,
+                PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID FROM         Employees
+                WHERE     (NationalID = " + nationalID + " AND Name = '" + emplyeeName + "')", _db);
+
+            _db.Open();
+            SqlDataReader _dr = _com.ExecuteReader(CommandBehavior.SingleRow);
+            if (_dr.HasRows)
+                _exist = true;
+
+            _dr.Close();
+            _db.Close();
+            return _exist;
+        }
+        #endregion
     }
 }
