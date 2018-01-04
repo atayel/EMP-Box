@@ -7,10 +7,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EmployeeBox {
+namespace EmployeeBox.Views.Employee {
     
     
-    public partial class EmployeesList {
+    public partial class List {
         
         /// <summary>
         /// txtName control.

@@ -6,9 +6,9 @@ using System.Text;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace EmployeeBox
+namespace EmployeeBox.Views.Employee
 {
-    public partial class EmployeesList : Page
+    public partial class List : Page
     {
         private EmployeeRepository _repository;
         private CommonRepository _common;

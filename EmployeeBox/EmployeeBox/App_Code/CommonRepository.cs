@@ -23,9 +23,5 @@ namespace EmployeeBox.App_Code
             return dt;
         }
 
-        internal void Dispose()
-        {
-            Dispose();
-        }
     }
 }
