@@ -22,6 +22,7 @@ namespace EmployeeBox.App_Code
         {
             _db.Close();
             _db.Dispose();
+            _com.Dispose();
         }
 
         #region Create_Functions
