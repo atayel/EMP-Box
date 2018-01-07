@@ -24,7 +24,7 @@ namespace EmployeeBox.Views.Employee
 
             if (!Page.IsPostBack)
             {
-                var _results = _repository.List(1, 10);
+                var _results = _repository.EmployeesList(1, 10);
                 PopulateTable(_common.ConvertIEnumerableToDataTable(_results));
 
                 employeeEducationList.Items.Add(new ListItem {
@@ -75,7 +75,7 @@ namespace EmployeeBox.Views.Employee
             if (employeeEducationList.Value != "0")
                 _employee.EducationalQualifications = Convert.ToInt32(employeeEducationList.Value);
 
-            var _results = _repository.List(_employee.Name, _employee.NationalID,
+            var _results = _repository.EmployeesList(_employee.Name, _employee.NationalID,
                 _employee.HireDateFrom,_employee.HireDateTo,_employee.JoinDateFrom,_employee.JoinDateTo,
                 _employee.EmployeeShareFrom,_employee.EmployeeShareTo,_employee.EducationalQualifications);
 
