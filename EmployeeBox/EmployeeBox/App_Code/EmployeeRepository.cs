@@ -58,7 +58,6 @@ namespace EmployeeBox.App_Code
                 };
             }
         }
-
         internal ContextState AddEducationalQualification(string EducationalQualificationName)
         {
             try
@@ -83,7 +82,6 @@ namespace EmployeeBox.App_Code
                 };
             }
         }
-
         internal ContextState Create(EmployeeState model)
         {
             try
