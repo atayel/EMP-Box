@@ -58,62 +58,28 @@ namespace EmployeeBox.App_Code
                 };
             }
         }
+
         internal ContextState AddEducationalQualification(string EducationalQualificationName)
         {
             try
             {
-                _com = new SqlCommand(@"INSERT INTO Employees
-                      (NationalID, Name, BirthDate, Address, PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID)
-                        VALUES     (" + model.NationalID + ",'" + model.Name + "'," + model.BirthDate + ",'" + model.Address + "'," +
-                        model.PhoneNumber + ",'" + model.Photo + "'," + model.HireDate + "," + model.JoinDate + "," + model.EmployeeStateLogID + ")", _db);
-                _db.Open();
-                _com.ExecuteNonQuery();
-                _db.Close();
-                return new ContextState
-                {
-                    State = true,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name
-                };
-            }
-            catch (HttpException ex)
-            {
-                return new ContextState
-                {
-                    State = false,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name,
-                    ErrorMessage = ex.Message,
-                    ErrorCode = ex.GetHttpCode()
-                };
-            }
-        }
+                _com.CommandText = @"INSERT INTO EducationalQualifications (EducationalQualificationName) VALUES (@EducationalQualificationName)";
 
-        internal ContextState Create(EducationalQualification model)
-        {
-            try
-            {
-                _com = new SqlCommand(@"INSERT INTO EducationalQualifications
-                      (EducationalQualificationName) VALUES ('" + model.EducationalQualificationName + "')");
+                _com.Parameters.AddWithValue("@EducationalQualificationName", EducationalQualificationName);
                 _db.Open();
                 _com.ExecuteNonQuery();
                 _db.Close();
                 return new ContextState
                 {
-                    State = true,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name
+                    State = true
                 };
             }
-            catch (HttpException ex)
+            catch (Exception ex)
             {
                 return new ContextState
                 {
                     State = false,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name,
                     ErrorMessage = ex.Message,
-                    ErrorCode = ex.GetHttpCode()
                 };
             }
         }
@@ -122,9 +88,9 @@ namespace EmployeeBox.App_Code
         {
             try
             {
-                _com = new SqlCommand(@"INSERT INTO EmployeeStates
+                _com.CommandText = @"INSERT INTO EmployeeStates
                       (Name, Description)
-                            VALUES     ('" + model.Name + "', '" + model.Description + "')");
+                            VALUES     ('" + model.Name + "', '" + model.Description + "')";
                 _db.Open();
                 _com.ExecuteNonQuery();
                 _db.Close();
@@ -154,11 +120,11 @@ namespace EmployeeBox.App_Code
         {
             try
             {
-                _com = new SqlCommand(@"UPDATE    Employees
+                _com.CommandText = @"UPDATE    Employees
             SET NationalID = " + model.NationalID + " , Name ='" + model.Name + "', BirthDate = " + model.BirthDate
             + ", Address = '" + model.Address + "', PhoneNumber = " + model.PhoneNumber + ", Photo = '" + model.Photo
             + "', HireDate = " + model.HireDate + " , JoinDate = " + model.JoinDate + ", EmployeeStateLogID = " + model.EmployeeStateLogID
-            + " WHERE (EmployeeID = " + model.EmployeeID + ")");
+            + " WHERE (EmployeeID = " + model.EmployeeID + ")";
                 return new ContextState
                 {
                     State = true,
@@ -185,8 +151,8 @@ namespace EmployeeBox.App_Code
         {
             try
             {
-                _com = new SqlCommand(@"DELETE FROM Employees
-                WHERE     (EmployeeID = " + model.EmployeeID + ")");
+                _com.CommandText = @"DELETE FROM Employees
+                WHERE     (EmployeeID = " + model.EmployeeID + ")";
                 _db.Open();
                 _com.ExecuteNonQuery();
                 _db.Close();
@@ -215,9 +181,9 @@ namespace EmployeeBox.App_Code
         internal Employee FindEmployeeById(int id)
         {
             var model = new Employee();
-            _com = new SqlCommand(@"SELECT     EmployeeID, NationalID, Name, BirthDate, Address,
+            _com.CommandText = @"SELECT     EmployeeID, NationalID, Name, BirthDate, Address,
                 PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID FROM         Employees
-                WHERE     (EmployeeID = " + id + ")");
+                WHERE     (EmployeeID = " + id + ")";
 
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader(CommandBehavior.SingleRow);
@@ -247,10 +213,10 @@ namespace EmployeeBox.App_Code
         internal IEnumerable<Employee> EmployeesList(int? page = 1, int? pageSize = 10)
         {
             List<Employee> _list = new List<Employee>();
-            _com = new SqlCommand(@"SELECT     EmployeeID, NationalID, Name, BirthDate,
-            Address, PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID
+            _com.CommandText = @"SELECT     EmployeeID, NationalID, Name, BirthDate,
+            Address, PhoneNumber, Photo, HireDate, JoinDate
             FROM         Employees
-            WHERE     EmployeeID BETWEEN ((" + page + " -1 ) * " + pageSize + " + 1)  AND (" + page + " * " + pageSize + ")");
+            WHERE     EmployeeID BETWEEN ((" + page + " -1 ) * " + pageSize + " + 1)  AND (" + page + " * " + pageSize + ")";
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader();
             if (_dr.HasRows)
@@ -315,7 +281,7 @@ FROM         Employees LEFT JOIN
                 _query += @" AND     (EmployeeShares.PersonalShare >=  " + employeeShareFrom + ")";
 
             List<Employee> _list = new List<Employee>();
-            _com = new SqlCommand(_query);
+            _com.CommandText = _query;
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader();
             if (_dr.HasRows)
@@ -345,11 +311,11 @@ FROM         Employees LEFT JOIN
         internal IEnumerable<EducationalQualification> EducationalQualificationList(int? page = 1, int? pageSize = 10)
         {
             List<EducationalQualification> _list = new List<EducationalQualification>();
-            _com = new SqlCommand(@"SELECT     EducationalQualifications.EducationalQualificationID, EducationalQualifications.EducationalQualificationName, Employees.Name, Employees.Photo, Employees.HireDate
+            _com.CommandText = @"SELECT     EducationalQualifications.EducationalQualificationID, EducationalQualifications.EducationalQualificationName, Employees.Name, Employees.Photo, Employees.HireDate
 FROM         EducationalQualifications INNER JOIN
                       EmployeeEducationalQualifications ON EducationalQualifications.EducationalQualificationID = EmployeeEducationalQualifications.EducationalQualificationID INNER JOIN
                       Employees ON EmployeeEducationalQualifications.EmployeeID = Employees.EmployeeID
-            WHERE     EducationalQualifications.EducationalQualificationID BETWEEN ((" + page + " -1 ) * " + pageSize + " + 1)  AND (" + page + " * " + pageSize + ")");
+            WHERE     EducationalQualifications.EducationalQualificationID BETWEEN ((" + page + " -1 ) * " + pageSize + " + 1)  AND (" + page + " * " + pageSize + ")";
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader();
             if (_dr.HasRows)
@@ -368,7 +334,7 @@ FROM         EducationalQualifications INNER JOIN
         }
 
         internal IEnumerable<EducationalQualification> EducationalQualificationList(string educationalQualificationName = null,
-            string employeeName = null , int? page = 1, int? pageSize = 10)
+            string employeeName = null, int? page = 1, int? pageSize = 10)
         {
             var _query = @"SELECT     Employees.EmployeeID, Employees.NationalID, Employees.Name, Employees.BirthDate, Employees.Address, Employees.PhoneNumber, Employees.Photo, Employees.HireDate, 
                       Employees.JoinDate, Employees.EmployeeStateLogID, EducationalQualifications.EducationalQualificationName, EmployeeShares.PersonalShare
@@ -385,7 +351,7 @@ FROM         Employees LEFT JOIN
                 _query += @" AND ( EducationalQualifications.EducationalQualificationName LIKE '%" + educationalQualificationName + "%' )";
 
             List<EducationalQualification> _list = new List<EducationalQualification>();
-            _com = new SqlCommand(_query);
+            _com.CommandText = _query;
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader();
             if (_dr.HasRows)
@@ -404,8 +370,8 @@ FROM         Employees LEFT JOIN
         internal IEnumerable<EducationalQualification> EducationalQualificationList()
         {
             List<EducationalQualification> _list = new List<EducationalQualification>();
-            _com = new SqlCommand(@"SELECT     EducationalQualificationID, EducationalQualificationName
-FROM         EducationalQualifications");
+            _com.CommandText = @"SELECT     EducationalQualificationID, EducationalQualificationName
+FROM         EducationalQualifications";
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader();
             if (_dr.HasRows)
@@ -436,9 +402,9 @@ FROM         EducationalQualifications");
         {
             bool _exist = false;
             var model = new Employee();
-            _com = new SqlCommand(@"SELECT     EmployeeID, NationalID, Name, BirthDate, Address,
+            _com.CommandText = @"SELECT     EmployeeID, NationalID, Name, BirthDate, Address,
                 PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID FROM         Employees
-                WHERE     (NationalID = " + nationalID + " AND Name = '" + emplyeeName + "')");
+                WHERE     (NationalID = " + nationalID + " AND Name = '" + emplyeeName + "')";
 
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader(CommandBehavior.SingleRow);
