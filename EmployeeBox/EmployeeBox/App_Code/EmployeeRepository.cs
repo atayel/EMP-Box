@@ -26,14 +26,44 @@ namespace EmployeeBox.App_Code
         }
 
         #region Create_Functions
-        internal ContextState Create(Employee model)
+        internal ContextState AddEmployee(string NationalID, string Name, string BirthDate, string Address, string PhoneNumber, string Photo, string HireDate, string JoinDate)
         {
             try
             {
-                _com = new SqlCommand(@"INSERT INTO Employees
-                      (NationalID, Name, BirthDate, Address, PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID)
-                        VALUES     (" + model.NationalID + ",'" + model.Name + "'," + model.BirthDate + ",'" + model.Address + "'," +
-                        model.PhoneNumber + ",'" + model.Photo + "'," + model.HireDate + "," + model.JoinDate + "," + model.EmployeeStateLogID + ")", _db);
+                _com.CommandText = @"INSERT INTO Employees (NationalID, Name, BirthDate, Address, PhoneNumber, Photo, HireDate, JoinDate) VALUES (@NationalID,@Name,@BirthDate,@Address,@PhoneNumber,@Photo,@HireDate,@JoinDate)";
+
+                _com.Parameters.AddWithValue("@NationalID", NationalID);
+                _com.Parameters.AddWithValue("@Name", Name);
+                _com.Parameters.AddWithValue("@BirthDate", Convert.ToDateTime(BirthDate));
+                _com.Parameters.AddWithValue("@Address", Address);
+                _com.Parameters.AddWithValue("@PhoneNumber", PhoneNumber);
+                _com.Parameters.AddWithValue("@Photo", Photo);
+                _com.Parameters.AddWithValue("@HireDate", Convert.ToDateTime(HireDate));
+                _com.Parameters.AddWithValue("@JoinDate", Convert.ToDateTime(JoinDate));
+                _db.Open();
+                _com.ExecuteNonQuery();
+                _db.Close();
+                return new ContextState
+                {
+                    State = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ContextState
+                {
+                    State = false,
+                    ErrorMessage = ex.Message,
+                };
+            }
+        }
+        internal ContextState AddEducationalQualification(string EducationalQualificationName)
+        {
+            try
+            {
+                _com.CommandText = @"INSERT INTO EducationalQualifications (EducationalQualificationName) VALUES (@EducationalQualificationName)";
+
+                _com.Parameters.AddWithValue("@EducationalQualificationName", EducationalQualificationName);
                 _db.Open();
                 _com.ExecuteNonQuery();
                 _db.Close();
@@ -283,6 +313,13 @@ FROM         EducationalQualifications", _db);
             _dr.Close();
             _db.Close();
             return _list;
+        }
+        public DataTable selectEducationalQualification()
+        {
+            SqlDataAdapter dataAd = new SqlDataAdapter("SELECT EducationalQualificationID, EducationalQualificationName FROM EducationalQualifications", _db);
+            DataTable dt = new DataTable();
+            dataAd.Fill(dt);
+            return dt;
         }
         #endregion
 

@@ -611,6 +611,7 @@
     <Content Include="Views\Employee\Edit.aspx" />
     <Content Include="Views\Employee\List.aspx" />
     <Content Include="Index.aspx" />
+    <Content Include="Views\Employee\Qualifications\Add.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -680,6 +681,13 @@
     </Compile>
     <Compile Include="Index.aspx.designer.cs">
       <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Employee\Qualifications\Add.aspx.cs">
+      <DependentUpon>Add.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Employee\Qualifications\Add.aspx.designer.cs">
+      <DependentUpon>Add.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
