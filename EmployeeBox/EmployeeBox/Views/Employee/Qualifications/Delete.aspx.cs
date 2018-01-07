@@ -5,9 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace EmployeeBox.Views.EducationalQualification
+namespace EmployeeBox.Views.Employee.Qualifications
 {
-    public partial class Add : System.Web.UI.Page
+    public partial class Delete : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
