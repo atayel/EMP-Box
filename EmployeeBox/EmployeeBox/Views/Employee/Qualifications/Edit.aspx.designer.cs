@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EmployeeBox.Views.EducationalQualification
+namespace EmployeeBox.Views.Employee.Qualifications
 {
 
 
-    public partial class Add
+    public partial class Edit
     {
     }
 }
