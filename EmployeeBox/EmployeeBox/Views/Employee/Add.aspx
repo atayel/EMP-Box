@@ -42,20 +42,17 @@
                 </div>
                 <div class="row">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">تاريخ الميلاد</label>
+                        <label class="col-md-1 control-label">تاريخ الميلاد</label>
                         <div class="col-md-3">
                             <input type="text" id="txtBirthDate" runat="server" class="form-control datePickerOnly" />
                         </div>
 
-                        <label class="col-md-3 control-label">تاريخ التعيين</label>
+                        <label class="col-md-1 control-label">تاريخ التعيين</label>
                         <div class="col-md-3">
                             <input type="text" id="txtHireDate" runat="server" class="form-control datePickerOnly" />
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">تاريخ الإنضمام</label>
+
+                        <label class="col-md-1 control-label">تاريخ الإنضمام</label>
                         <div class="col-md-3">
                             <input type="text" id="txtJoinDate" runat="server" class="form-control datePickerOnly" />
                         </div>
@@ -63,11 +60,11 @@
                 </div>
                 <div class="row">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">العنوان</label>
+                        <label class="col-md-1 control-label">العنوان</label>
                         <div class="col-md-3">
                             <input type="text" id="txtAddress" min="0" runat="server" class="form-control" />
                         </div>
-                        <label class="col-md-3 control-label">رقم التليفون</label>
+                        <label class="col-md-1 control-label">رقم التليفون</label>
                         <div class="col-md-3">
                             <input type="text" id="txtPhoneNumber" min="0" runat="server" class="form-control" />
                         </div>
@@ -75,9 +72,23 @@
                 </div>
                 <div class="row">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">الصورة</label>
+                        <label class="col-md-1 control-label">الصورة الشخصية</label>
                         <div class="col-md-3">
                             <input type="text" id="txtPhoto" min="0" runat="server" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="col-md-1 control-label">أجر الأشتراك</label>
+                        <div class="col-md-3">
+                            <input type="text" id="txtSubscriptionFee" min="0" runat="server" class="form-control" />
+                        </div>
+
+                        <label class="col-md-1 control-label">السنة</label>
+                        <div class="col-md-3">
+                            <select id="subscriptionFeeYears" runat="server" class="demo-default selectized selectList">
+                            </select>
                         </div>
                     </div>
                 </div>

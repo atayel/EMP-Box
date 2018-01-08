@@ -94,6 +94,24 @@ namespace EmployeeBox.Views.Employee {
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtPhoto;
         
         /// <summary>
+        /// txtSubscriptionFee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtSubscriptionFee;
+        
+        /// <summary>
+        /// subscriptionFeeYears control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect subscriptionFeeYears;
+        
+        /// <summary>
         /// btnAdd control.
         /// </summary>
         /// <remarks>

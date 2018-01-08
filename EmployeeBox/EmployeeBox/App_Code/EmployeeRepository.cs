@@ -28,20 +28,26 @@ namespace EmployeeBox.App_Code
         }
 
         #region Create_Functions
-        internal ContextState AddEmployee(string NationalID, string Name, string BirthDate, string Address, string PhoneNumber, string Photo, string HireDate, string JoinDate)
+        internal ContextState AddEmployee(string NationalID, string Name, string BirthDate, string Address, string PhoneNumber, string Photo, string HireDate, string JoinDate, string QualificationID, string SubscriptionFee, string Year)
         {
             try
             {
-                _com.CommandText = @"INSERT INTO Employees (NationalID, Name, BirthDate, Address, PhoneNumber, Photo, HireDate, JoinDate) VALUES (@NationalID,@Name,@BirthDate,@Address,@PhoneNumber,@Photo,@HireDate,@JoinDate)";
+                _com.CommandText = @"INSERT INTO Employees (NationalID, Name, BirthDate, Address, PhoneNumber, Photo, HireDate, JoinDate) VALUES (@NationalID,@Name,@BirthDate,@Address,@PhoneNumber,@Photo,@HireDate,@JoinDate);
+                                    DECLARE @variableEmployeeID int = @@IDENTITY;
+                                    INSERT INTO EmployeeEducationalQualifications (EmployeeID, QualificationID) VALUES (@variableEmployeeID,@QualificationID)
+                                    INSERT INTO EmployeeSubscriptionFee (EmployeeID, Year, SubscriptionFee) VALUES (@variableEmployeeID,@Year,@SubscriptionFee)";
 
                 _com.Parameters.AddWithValue("@NationalID", NationalID);
                 _com.Parameters.AddWithValue("@Name", Name);
-                _com.Parameters.AddWithValue("@BirthDate", Convert.ToDateTime(BirthDate));
+                _com.Parameters.AddWithValue("@BirthDate", DateTime.ParseExact(BirthDate, "dd/MM/yyyy", null));
                 _com.Parameters.AddWithValue("@Address", Address);
                 _com.Parameters.AddWithValue("@PhoneNumber", PhoneNumber);
                 _com.Parameters.AddWithValue("@Photo", Photo);
-                _com.Parameters.AddWithValue("@HireDate", Convert.ToDateTime(HireDate));
-                _com.Parameters.AddWithValue("@JoinDate", Convert.ToDateTime(JoinDate));
+                _com.Parameters.AddWithValue("@HireDate", DateTime.ParseExact(HireDate, "dd/MM/yyyy", null));
+                _com.Parameters.AddWithValue("@JoinDate", DateTime.ParseExact(JoinDate, "dd/MM/yyyy", null));
+                _com.Parameters.AddWithValue("@QualificationID", QualificationID);
+                _com.Parameters.AddWithValue("@Year", Year);
+                _com.Parameters.AddWithValue("@SubscriptionFee", SubscriptionFee);
                 _db.Open();
                 _com.ExecuteNonQuery();
                 _db.Close();
