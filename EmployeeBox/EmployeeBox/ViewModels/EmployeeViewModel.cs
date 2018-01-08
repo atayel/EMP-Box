@@ -4,9 +4,13 @@ namespace EmployeeBox.ViewModels
 {
     public class EmployeeViewModel
     {
+        public int EmployeeID { get; set; }
+
         public decimal? NationalID { get; set; }
 
         public string Name { get; set; }
+
+        public string Photo { get; set; }
 
         public DateTime? HireDateFrom { get; set; }
 
@@ -21,5 +25,7 @@ namespace EmployeeBox.ViewModels
         public double? EmployeeShareTo { get; set; }
 
         public int? EducationalQualifications { get; set; }
+
+        public string EducationalQualificationName { get; set; }
     }
 }

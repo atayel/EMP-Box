@@ -4,3 +4,9 @@ C:\Users\HAMADA\Source\Repos\EMP Box\EmployeeBox\EmployeeBox\bin\EmployeeBox.pdb
 C:\Users\HAMADA\Source\Repos\EMP Box\EmployeeBox\EmployeeBox\obj\Debug\EmployeeBox.csprojResolveAssemblyReference.cache
 C:\Users\HAMADA\Source\Repos\EMP Box\EmployeeBox\EmployeeBox\obj\Debug\EmployeeBox.dll
 C:\Users\HAMADA\Source\Repos\EMP Box\EmployeeBox\EmployeeBox\obj\Debug\EmployeeBox.pdb
+D:\EMP Box\EmployeeBox\EmployeeBox\bin\EmployeeBox.dll.config
+D:\EMP Box\EmployeeBox\EmployeeBox\bin\EmployeeBox.dll
+D:\EMP Box\EmployeeBox\EmployeeBox\bin\EmployeeBox.pdb
+D:\EMP Box\EmployeeBox\EmployeeBox\obj\Debug\EmployeeBox.dll
+D:\EMP Box\EmployeeBox\EmployeeBox\obj\Debug\EmployeeBox.pdb
+D:\EMP Box\EmployeeBox\EmployeeBox\obj\Debug\EmployeeBox.csprojResolveAssemblyReference.cache

@@ -615,6 +615,7 @@
     <Content Include="Views\Employee\Qualifications\Delete.aspx" />
     <Content Include="Views\Employee\Qualifications\Edit.aspx" />
     <Content Include="Views\Employee\Qualifications\List.aspx" />
+    <Content Include="Views\Employee\View.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -712,6 +713,13 @@
     </Compile>
     <Compile Include="Views\Employee\Qualifications\List.aspx.designer.cs">
       <DependentUpon>List.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Employee\View.aspx.cs">
+      <DependentUpon>View.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Views\Employee\View.aspx.designer.cs">
+      <DependentUpon>View.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

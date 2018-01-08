@@ -107,50 +107,71 @@
 
             <div class="panel-body">
                 <div class="table-responsive ls-table">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>
-                                    المسلسل
-                                </th>
-                                <th>
-                                    الإسم
-                                </th>
-                                <th>
-                                    صورة الموظف
-                                </th>
-                                <th>
-                                    الصلاحيات
-                                </th>
-                            </tr>
-                        </thead>
-
-                        <tbody runat="server" id="tableBody">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-center">
-                                    <button class="btn btn-xs btn-success"><i class="fa fa-eye"></i></button>
-                                    <button class="btn btn-xs btn-warning"><i class="fa fa-pencil-square-o"></i></button>
-                                    <button class="btn btn-xs btn-danger"><i class="fa fa-minus"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-
-                <div class="table-responsive ls-table">
-                    <asp:DataGrid class="table table-bordered table-striped" AllowPaging="true"
-                        AllowCustomPaging="true"
-                         runat="server" ID="dt">
+                    <asp:DataGrid AllowPaging="True"
+                         runat="server" ID="dt" AllowSorting="True"
+                        OnPageIndexChanged="dt_PageIndexChanged"
+                         OnSortCommand="dt_SortCommand" CssClass="table table-bordered table-striped ls-animated-table"
+                        PagerStyle-CssClass="ls-button-group demo-btn ls-table-pagination" AutoGenerateColumns="False" PageSize="10">
                         <Columns>
-                            <asp:BoundColumn HeaderText="المسلسل" DataField="EmployeeID"></asp:BoundColumn>
-                            <asp:BoundColumn HeaderText="الإسم" DataField="Name"></asp:BoundColumn>
-                            <asp:BoundColumn HeaderText="صورة الموظف" DataField="Photo"></asp:BoundColumn>
+                            <asp:TemplateColumn HeaderText="المسلسل">
+                                <EditItemTemplate>
+                                    <asp:TextBox runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.EmployeeID") %>'></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.EmployeeID") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateColumn>
+                            <asp:TemplateColumn HeaderText="الإسم">
+                                <EditItemTemplate>
+                                    <asp:TextBox runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Name") %>'></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Name") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateColumn>
+                            <asp:TemplateColumn HeaderText="صورة الموظف">
+                                <EditItemTemplate>
+                                    <asp:TextBox runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Photo") %>'></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.Photo") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateColumn>
+                            <asp:TemplateColumn HeaderText="المؤهل الوظيفى">
+                                <EditItemTemplate>
+                                    <asp:TextBox runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.EducationalQualificationName") %>'></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.EducationalQualificationName") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateColumn>
+                            <asp:TemplateColumn HeaderText="تاريخ التعيين">
+                                <EditItemTemplate>
+                                    <asp:TextBox runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.HireDate") %>'></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.HireDate") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateColumn>
+                            <asp:TemplateColumn HeaderText="تاريخ الإشتراك">
+                                <EditItemTemplate>
+                                    <asp:TextBox runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.JoinDate") %>'></asp:TextBox>
+                                </EditItemTemplate>
+                                <ItemTemplate>
+                                    <asp:Label runat="server" Text='<%# DataBinder.Eval(Container, "DataItem.JoinDate") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateColumn>
+                            <asp:TemplateColumn HeaderText="الصلاحيات">
+                                <ItemTemplate>
+                                    <a href="View.aspx?id=<%# DataBinder.Eval(Container, "DataItem.EmployeeID") %>" data-value='<%# DataBinder.Eval(Container, "DataItem.EmployeeID") %>' title="عرض" class="btn btn-xs btn-success"><i class="fa fa-eye"></i></a>
+                                    <a href="Edit.aspx?id=<%# DataBinder.Eval(Container, "DataItem.EmployeeID") %>" data-value='<%# DataBinder.Eval(Container, "DataItem.EmployeeID") %>' title="تعديل"  class="btn btn-xs btn-warning"><i class="fa fa-pencil-square-o"></i></a>
+                                    <a href="Delete.aspx?id=<%# DataBinder.Eval(Container, "DataItem.EmployeeID") %>" data-value='<%# DataBinder.Eval(Container, "DataItem.EmployeeID") %>' title="حذف" class="btn btn-xs btn-danger"><i class="fa fa-minus"></i></a>
+                                </ItemTemplate>
+                            </asp:TemplateColumn>
                         </Columns>
-                        <PagerStyle CssClass="pagination pagination-sm"/>
+                        <HeaderStyle Font-Bold="False" Font-Italic="False" Font-Overline="False" Font-Size="Medium" Font-Strikeout="False" Font-Underline="False" />
+                        <PagerStyle Mode="NumericPages" PageButtonCount="5" HorizontalAlign="Center"
+                             Font-Bold="False" Font-Italic="False" Font-Overline="False" Font-Strikeout="False" Font-Underline="False" Wrap="False" />
                     </asp:DataGrid>
                 </div>
             </div>

@@ -19,7 +19,7 @@ namespace EmployeeBox.Views.Employee
                 _repository = new EmployeeRepository();
 
                 //Load data into employeeEducation dropdownlist
-                employeeEducationList.DataSource = _repository.selectEducationalQualification();
+                employeeEducationList.DataSource = _repository.SelectEducationalQualification();
                 employeeEducationList.DataValueField = "EducationalQualificationID";
                 employeeEducationList.DataTextField = "EducationalQualificationName";
                 employeeEducationList.DataBind();
@@ -32,11 +32,14 @@ namespace EmployeeBox.Views.Employee
                 }
             }
         }
+
         protected void btnAdd_ServerClick(object sender, EventArgs e)
         {
             _repository = new EmployeeRepository();
 
-            ContextState contextStateOb = _repository.AddEmployee(txtNationalID.Value, txtName.Value, txtBirthDate.Value, txtAddress.Value, txtPhoneNumber.Value, txtPhoto.Value, txtHireDate.Value, txtJoinDate.Value, employeeEducationList.Value,txtSubscriptionFee.Value,subscriptionFeeYears.Value);
+            ContextState contextStateOb = _repository.AddEmployee(txtNationalID.Value, txtName.Value,
+                txtBirthDate.Value, txtAddress.Value, txtPhoneNumber.Value, txtPhoto.Value, txtHireDate.Value,
+                txtJoinDate.Value, employeeEducationList.Value,txtSubscriptionFee.Value,subscriptionFeeYears.Value);
             if (contextStateOb.State)
             {
                 //Response.Write("Employee has been added  sucssefly.");

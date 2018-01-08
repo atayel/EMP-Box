@@ -28,7 +28,9 @@ namespace EmployeeBox.App_Code
         }
 
         #region Create_Functions
-        internal ContextState AddEmployee(string NationalID, string Name, string BirthDate, string Address, string PhoneNumber, string Photo, string HireDate, string JoinDate, string QualificationID, string SubscriptionFee, string Year)
+        internal ContextState AddEmployee(string NationalID, string Name, string BirthDate,
+            string Address, string PhoneNumber, string Photo, string HireDate, string JoinDate,
+            string QualificationID, string SubscriptionFee, string Year)
         {
             try
             {
@@ -51,23 +53,11 @@ namespace EmployeeBox.App_Code
                 _db.Open();
                 _com.ExecuteNonQuery();
                 _db.Close();
-                return new ContextState
-                {
-                    State = true,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name
-                };
+                return ReturnedContext(true);
             }
             catch (HttpException ex)
             {
-                return new ContextState
-                {
-                    State = false,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name,
-                    ErrorMessage = ex.Message,
-                    ErrorCode = ex.GetHttpCode()
-                };
+                return ReturnedContext(false, ex);
             }
         }
         internal ContextState AddEducationalQualification(string EducationalQualificationName)
@@ -80,18 +70,11 @@ namespace EmployeeBox.App_Code
                 _db.Open();
                 _com.ExecuteNonQuery();
                 _db.Close();
-                return new ContextState
-                {
-                    State = true
-                };
+                return ReturnedContext(true);
             }
-            catch (Exception ex)
+            catch (HttpException ex)
             {
-                return new ContextState
-                {
-                    State = false,
-                    ErrorMessage = ex.Message,
-                };
+                return ReturnedContext(false, ex);
             }
         }
         internal ContextState Create(EmployeeState model)
@@ -104,23 +87,11 @@ namespace EmployeeBox.App_Code
                 _db.Open();
                 _com.ExecuteNonQuery();
                 _db.Close();
-                return new ContextState
-                {
-                    State = true,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name
-                };
+                return ReturnedContext(true);
             }
             catch (HttpException ex)
             {
-                return new ContextState
-                {
-                    State = false,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name,
-                    ErrorMessage = ex.Message,
-                    ErrorCode = ex.GetHttpCode()
-                };
+                return ReturnedContext(false, ex);
             }
         }
 
@@ -136,23 +107,12 @@ namespace EmployeeBox.App_Code
             + ", Address = '" + model.Address + "', PhoneNumber = " + model.PhoneNumber + ", Photo = '" + model.Photo
             + "', HireDate = " + model.HireDate + " , JoinDate = " + model.JoinDate + ", EmployeeStateLogID = " + model.EmployeeStateLogID
             + " WHERE (EmployeeID = " + model.EmployeeID + ")";
-                return new ContextState
-                {
-                    State = true,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name
-                };
+
+                return ReturnedContext(true);
             }
             catch (HttpException ex)
             {
-                return new ContextState
-                {
-                    State = false,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name,
-                    ErrorMessage = ex.Message,
-                    ErrorCode = ex.GetHttpCode()
-                };
+                return ReturnedContext(false, ex);
             }
         }
         #endregion
@@ -167,23 +127,12 @@ namespace EmployeeBox.App_Code
                 _db.Open();
                 _com.ExecuteNonQuery();
                 _db.Close();
-                return new ContextState
-                {
-                    State = true,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name
-                };
+
+                return ReturnedContext(true);
             }
             catch (HttpException ex)
             {
-                return new ContextState
-                {
-                    State = false,
-                    FunctionName = MethodBase.GetCurrentMethod().Name,
-                    ClassName = GetType().Name,
-                    ErrorMessage = ex.Message,
-                    ErrorCode = ex.GetHttpCode()
-                };
+                return ReturnedContext(false, ex);
             }
         }
         #endregion
@@ -193,7 +142,7 @@ namespace EmployeeBox.App_Code
         {
             var model = new Employee();
             _com.CommandText = @"SELECT     EmployeeID, NationalID, Name, BirthDate, Address,
-                PhoneNumber, Photo, HireDate, JoinDate, EmployeeStateLogID FROM         Employees
+                PhoneNumber, Photo, HireDate, JoinDate FROM         Employees
                 WHERE     (EmployeeID = " + id + ")";
 
             _db.Open();
@@ -210,7 +159,6 @@ namespace EmployeeBox.App_Code
                     model.Photo = _dr["Photo"].ToString();
                     model.HireDate = DateTime.ParseExact(_dr["HireDate"].ToString(), "dd/MM/yyyy", null);
                     model.JoinDate = DateTime.ParseExact(_dr["JoinDate"].ToString(), "dd/MM/yyyy", null);
-                    model.EmployeeStateLogID = Convert.ToInt32(_dr["EmployeeStateLogID"].ToString());
                 }
 
             _dr.Close();
@@ -221,51 +169,26 @@ namespace EmployeeBox.App_Code
         #endregion
 
         #region EmployeeList_Functions
-        internal IEnumerable<Employee> EmployeesList(int? page = 1, int? pageSize = 10)
-        {
-            List<Employee> _list = new List<Employee>();
-            _com.CommandText = @"SELECT     EmployeeID, NationalID, Name, BirthDate,
-            Address, PhoneNumber, Photo, HireDate, JoinDate
-            FROM         Employees
-            WHERE     EmployeeID BETWEEN ((" + page + " -1 ) * " + pageSize + " + 1)  AND (" + page + " * " + pageSize + ")";
-            _db.Open();
-            SqlDataReader _dr = _com.ExecuteReader();
-            if (_dr.HasRows)
-                while (_dr.Read())
-                {
-                    _list.Add(new Employee
-                    {
-                        EmployeeID = Convert.ToInt32(_dr[0]),
-                        NationalID = decimal.Parse(_dr[1].ToString()),
-                        Name = _dr[2].ToString(),
-                        BirthDate = Convert.ToDateTime(_dr[3].ToString()),
-                        Address = _dr[4].ToString(),
-                        PhoneNumber = decimal.Parse(_dr[5].ToString()),
-                        Photo = _dr[6].ToString(),
-                        HireDate = Convert.ToDateTime(_dr[7].ToString()),
-                        JoinDate = Convert.ToDateTime(_dr[8].ToString())
-                    });
-                }
-
-            _dr.Close();
-            _db.Close();
-            return _list;
-        }
-
-        internal IEnumerable<Employee> EmployeesList(string employeeName = null,
+        internal DataTable EmployeeList(int? page = 1, int? pageSize = 10, string employeeName = null,
             decimal? nationalID = default(decimal?),
             DateTime? hireDateFrom = default(DateTime?), DateTime? hireDateTo = default(DateTime?),
             DateTime? joinDateFrom = default(DateTime?), DateTime? joinDateTo = default(DateTime?),
             double? employeeShareFrom = default(double?), double? employeeShareTo = default(double?),
-            int? employeeEducation = 0, int? page = 1, int? pageSize = 10)
+            int? employeeEducation = 0)
         {
-            var _query = @"SELECT     Employees.EmployeeID, Employees.NationalID, Employees.Name, Employees.BirthDate, Employees.Address, Employees.PhoneNumber, Employees.Photo, Employees.HireDate, 
-                      Employees.JoinDate, EducationalQualifications.EducationalQualificationName, EmployeeShares.PersonalShare
+            DataTable _dt = new DataTable();
+            string _query = @"SELECT TOP " + pageSize +
+                @" Employees.EmployeeID, Employees.NationalID, Employees.Name, Employees.BirthDate, Employees.Address, Employees.PhoneNumber, Employees.Photo, 
+                      Employees.HireDate, Employees.JoinDate, EmployeeEducationalQualifications.QualificationID, EducationalQualifications.EducationalQualificationName
 FROM         Employees LEFT JOIN
                       EmployeeEducationalQualifications ON Employees.EmployeeID = EmployeeEducationalQualifications.EmployeeID LEFT JOIN
-                      EducationalQualifications ON EmployeeEducationalQualifications.EducationalQualificationID = EducationalQualifications.EducationalQualificationID LEFT JOIN
-                      EmployeeShares ON Employees.EmployeeID = EmployeeShares.EmployeeID
-            WHERE     Employees.EmployeeID BETWEEN ((" + page + " -1 ) * " + pageSize + " +1)  AND (" + page + " * " + pageSize + ")";
+                      EducationalQualifications ON EmployeeEducationalQualifications.QualificationID = EducationalQualifications.EducationalQualificationID
+      WHERE Employees.EmployeeID NOT IN 
+      (SELECT TOP 
+  (" + pageSize + "  * (" + page + @"  - 1)) Employees.EmployeeID FROM  Employees LEFT JOIN
+                      EmployeeEducationalQualifications ON Employees.EmployeeID = EmployeeEducationalQualifications.EmployeeID LEFT JOIN
+                      EducationalQualifications ON EmployeeEducationalQualifications.QualificationID = EducationalQualifications.EducationalQualificationID
+   ) ";
 
             if (employeeName != string.Empty)
                 _query += @" AND ( Employees.Name LIKE '%" + employeeName + "%' )";
@@ -291,117 +214,24 @@ FROM         Employees LEFT JOIN
             else if (employeeShareFrom > 0 && employeeShareTo <= 0)
                 _query += @" AND     (EmployeeShares.PersonalShare >=  " + employeeShareFrom + ")";
 
-            List<Employee> _list = new List<Employee>();
+
+            _query += @" ORDER BY Employees.EmployeeID DESC";
+
             _com.CommandText = _query;
             _db.Open();
-            SqlDataReader _dr = _com.ExecuteReader();
-            if (_dr.HasRows)
-                while (_dr.Read())
-                {
-                    _list.Add(new Employee
-                    {
-                        EmployeeID = Convert.ToInt32(_dr[0]),
-                        NationalID = decimal.Parse(_dr[1].ToString()),
-                        Name = _dr[2].ToString(),
-                        BirthDate = Convert.ToDateTime(_dr[3].ToString()),
-                        Address = _dr[4].ToString(),
-                        PhoneNumber = decimal.Parse(_dr[5].ToString()),
-                        Photo = _dr[6].ToString(),
-                        HireDate = Convert.ToDateTime(_dr[7].ToString()),
-                        JoinDate = Convert.ToDateTime(_dr[8].ToString())
-                    });
-                }
-
-            _dr.Close();
+            SqlDataAdapter _da = new SqlDataAdapter(_com);
+            _da.Fill(_dt);
             _db.Close();
-            return _list;
+            return _dt;
         }
         #endregion
 
         #region EducationalQualificationList_Functions
-        internal IEnumerable<EducationalQualification> EducationalQualificationList(int? page = 1, int? pageSize = 10)
+        public DataTable SelectEducationalQualification()
         {
-            List<EducationalQualification> _list = new List<EducationalQualification>();
-            _com.CommandText = @"SELECT     EducationalQualifications.EducationalQualificationID, EducationalQualifications.EducationalQualificationName, Employees.Name, Employees.Photo, Employees.HireDate
-FROM         EducationalQualifications INNER JOIN
-                      EmployeeEducationalQualifications ON EducationalQualifications.EducationalQualificationID = EmployeeEducationalQualifications.EducationalQualificationID INNER JOIN
-                      Employees ON EmployeeEducationalQualifications.EmployeeID = Employees.EmployeeID
-            WHERE     EducationalQualifications.EducationalQualificationID BETWEEN ((" + page + " -1 ) * " + pageSize + " + 1)  AND (" + page + " * " + pageSize + ")";
-            _db.Open();
-            SqlDataReader _dr = _com.ExecuteReader();
-            if (_dr.HasRows)
-                while (_dr.Read())
-                {
-                    _list.Add(new EducationalQualification
-                    {
-                        EducationalQualificationID = Convert.ToInt32(_dr[0]),
-                        EducationalQualificationName = _dr[1].ToString()
-                    });
-                }
-
-            _dr.Close();
-            _db.Close();
-            return _list;
-        }
-
-        internal IEnumerable<EducationalQualification> EducationalQualificationList(string educationalQualificationName = null,
-            string employeeName = null, int? page = 1, int? pageSize = 10)
-        {
-            var _query = @"SELECT     Employees.EmployeeID, Employees.NationalID, Employees.Name, Employees.BirthDate, Employees.Address, Employees.PhoneNumber, Employees.Photo, Employees.HireDate, 
-                      Employees.JoinDate, Employees.EmployeeStateLogID, EducationalQualifications.EducationalQualificationName, EmployeeShares.PersonalShare
-FROM         Employees LEFT JOIN
-                      EmployeeEducationalQualifications ON Employees.EmployeeID = EmployeeEducationalQualifications.EmployeeID LEFT JOIN
-                      EducationalQualifications ON EmployeeEducationalQualifications.EducationalQualificationID = EducationalQualifications.EducationalQualificationID LEFT JOIN
-                      EmployeeShares ON Employees.EmployeeID = EmployeeShares.EmployeeID
-            WHERE     Employees.EmployeeID BETWEEN ((" + page + " -1 ) * " + pageSize + " +1)  AND (" + page + " * " + pageSize + ")";
-
-            if (employeeName != string.Empty)
-                _query += @" AND ( Employees.Name LIKE '%" + employeeName + "%' )";
-
-            if (educationalQualificationName != string.Empty)
-                _query += @" AND ( EducationalQualifications.EducationalQualificationName LIKE '%" + educationalQualificationName + "%' )";
-
-            List<EducationalQualification> _list = new List<EducationalQualification>();
-            _com.CommandText = _query;
-            _db.Open();
-            SqlDataReader _dr = _com.ExecuteReader();
-            if (_dr.HasRows)
-                while (_dr.Read())
-                {
-                    _list.Add(new EducationalQualification
-                    {
-                    });
-                }
-
-            _dr.Close();
-            _db.Close();
-            return _list;
-        }
-
-        internal IEnumerable<EducationalQualification> EducationalQualificationList()
-        {
-            List<EducationalQualification> _list = new List<EducationalQualification>();
-            _com.CommandText = @"SELECT     EducationalQualificationID, EducationalQualificationName
-FROM         EducationalQualifications";
-            _db.Open();
-            SqlDataReader _dr = _com.ExecuteReader();
-            if (_dr.HasRows)
-                while (_dr.Read())
-                {
-                    _list.Add(new EducationalQualification
-                    {
-                        EducationalQualificationID = Convert.ToInt32(_dr[0]),
-                        EducationalQualificationName = _dr[1].ToString()
-                    });
-                }
-
-            _dr.Close();
-            _db.Close();
-            return _list;
-        }
-        public DataTable selectEducationalQualification()
-        {
-            SqlDataAdapter dataAd = new SqlDataAdapter("SELECT EducationalQualificationID, EducationalQualificationName FROM EducationalQualifications", _db);
+            _com.CommandText = @"SELECT EducationalQualificationID,
+                EducationalQualificationName FROM EducationalQualifications";
+            SqlDataAdapter dataAd = new SqlDataAdapter(_com);
             DataTable dt = new DataTable();
             dataAd.Fill(dt);
             return dt;
@@ -425,6 +255,20 @@ FROM         EducationalQualifications";
             _dr.Close();
             _db.Close();
             return _exist;
+        }
+        #endregion
+
+        #region ContextState_Method
+        internal ContextState ReturnedContext(bool _state = true, HttpException _ex = null)
+        {
+            return new ContextState
+            {
+                State = _state,
+                FunctionName = MethodBase.GetCurrentMethod().Name,
+                ClassName = GetType().Name,
+                ErrorMessage = _ex.Message,
+                ErrorCode = _ex.GetHttpCode()
+            };
         }
         #endregion
     }

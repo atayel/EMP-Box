@@ -10,7 +10,7 @@
 namespace EmployeeBox.Views.Employee {
     
     
-    public partial class List {
+    public partial class View {
         
         /// <summary>
         /// txtName control.
@@ -40,75 +40,75 @@ namespace EmployeeBox.Views.Employee {
         protected global::System.Web.UI.HtmlControls.HtmlSelect employeeEducationList;
         
         /// <summary>
-        /// txtHireDateFrom control.
+        /// txtBirthDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtHireDateFrom;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtBirthDate;
         
         /// <summary>
-        /// txtHireDateTo control.
+        /// txtHireDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtHireDateTo;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtHireDate;
         
         /// <summary>
-        /// txtJoinDateFrom control.
+        /// txtJoinDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtJoinDateFrom;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtJoinDate;
         
         /// <summary>
-        /// txtJoinDateTo control.
+        /// txtAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtJoinDateTo;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtAddress;
         
         /// <summary>
-        /// txtEmployeeShareFrom control.
+        /// txtPhoneNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtEmployeeShareFrom;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtPhoneNumber;
         
         /// <summary>
-        /// txtEmployeeShareTo control.
+        /// txtPhoto control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText txtEmployeeShareTo;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtPhoto;
         
         /// <summary>
-        /// btnSearch control.
+        /// txtSubscriptionFee control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputSubmit btnSearch;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtSubscriptionFee;
         
         /// <summary>
-        /// dt control.
+        /// subscriptionFeeYears control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid dt;
+        protected global::System.Web.UI.HtmlControls.HtmlSelect subscriptionFeeYears;
     }
 }
