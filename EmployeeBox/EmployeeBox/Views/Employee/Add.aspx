@@ -12,13 +12,16 @@
         <!--Top breadcrumb start -->
         <ol class="breadcrumb">
             <li><a href="/"><i class="fa fa-home"></i></a></li>
-            <li class="active">الموظفين</li>
+            <li><a href="List.aspx">الموظفين</a></li>
             <li class="active">أضافة موظف</li>
         </ol>
         <!--Top breadcrumb start -->
     </div>
     <div class="col-md-12">
-        <div class="panel">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">إضافة موظف</h4>
+            </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="form-group">

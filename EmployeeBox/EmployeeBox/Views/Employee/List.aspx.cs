@@ -10,7 +10,6 @@ namespace EmployeeBox.Views.Employee
     public partial class List : Page
     {
         private EmployeeRepository _repository;
-        private CommonRepository _common;
 
         #region Form_Events
         protected void Page_Load(object sender, EventArgs e)
@@ -19,7 +18,6 @@ namespace EmployeeBox.Views.Employee
             txtEmployeeShareTo.Attributes["type"] = "number";
 
             _repository = new EmployeeRepository();
-            _common = new CommonRepository();
 
             if (!Page.IsPostBack)
             {

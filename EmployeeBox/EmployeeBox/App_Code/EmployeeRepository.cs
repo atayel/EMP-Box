@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using EmployeeBox.Models;
 using EmployeeBox.ViewModels;
 using System.Data.SqlClient;
@@ -138,12 +137,16 @@ namespace EmployeeBox.App_Code
         #endregion
 
         #region Find_Functions
-        internal Employee FindEmployeeById(int id)
+        internal EmployeeViewModel FindEmployeeById(int id)
         {
-            var model = new Employee();
-            _com.CommandText = @"SELECT     EmployeeID, NationalID, Name, BirthDate, Address,
-                PhoneNumber, Photo, HireDate, JoinDate FROM         Employees
-                WHERE     (EmployeeID = " + id + ")";
+            var model = new EmployeeViewModel();
+            _com.CommandText = @"SELECT     Employees.EmployeeID, Employees.NationalID, Employees.Name, Employees.BirthDate, Employees.Address, Employees.PhoneNumber, Employees.Photo, Employees.HireDate, 
+                      Employees.JoinDate, EmployeeSubscriptionFee.Year, EmployeeSubscriptionFee.SubscriptionFee, EducationalQualifications.EducationalQualificationName
+FROM         Employees INNER JOIN
+                      EmployeeSubscriptionFee ON Employees.EmployeeID = EmployeeSubscriptionFee.EmployeeID INNER JOIN
+                      EmployeeEducationalQualifications ON Employees.EmployeeID = EmployeeEducationalQualifications.EmployeeID INNER JOIN
+                      EducationalQualifications ON EmployeeEducationalQualifications.QualificationID = EducationalQualifications.EducationalQualificationID
+                WHERE     (Employees.EmployeeID = " + id + ")";
 
             _db.Open();
             SqlDataReader _dr = _com.ExecuteReader(CommandBehavior.SingleRow);
@@ -153,18 +156,35 @@ namespace EmployeeBox.App_Code
                     model.EmployeeID = Convert.ToInt32(_dr["EmployeeID"]);
                     model.Name = _dr["Name"].ToString();
                     model.NationalID = decimal.Parse(_dr["NationalID"].ToString());
-                    model.BirthDate = DateTime.ParseExact(_dr["BirthDate"].ToString(), "dd/MM/yyyy", null);
+                    model.BirthDate = Convert.ToDateTime(_dr["BirthDate"].ToString());
                     model.Address = _dr["Address"].ToString();
                     model.PhoneNumber = decimal.Parse(_dr["PhoneNumber"].ToString());
                     model.Photo = _dr["Photo"].ToString();
-                    model.HireDate = DateTime.ParseExact(_dr["HireDate"].ToString(), "dd/MM/yyyy", null);
-                    model.JoinDate = DateTime.ParseExact(_dr["JoinDate"].ToString(), "dd/MM/yyyy", null);
+                    model.HireDateFrom = Convert.ToDateTime(_dr["HireDate"].ToString());
+                    model.JoinDateFrom = Convert.ToDateTime(_dr["JoinDate"].ToString());
+                    model.Year = Convert.ToInt32(_dr["Year"].ToString());
+                    model.EducationalQualificationName = _dr["EducationalQualificationName"].ToString();
+                    model.SubscriptionFee = decimal.Parse(_dr["SubscriptionFee"].ToString());
                 }
 
             _dr.Close();
             _db.Close();
 
             return model;
+        }
+        internal EducationalQualification FindEmployeeEducationById(int id)
+        {
+            DataTable _dt = new DataTable();
+            _com.CommandText = @"";
+            _db.Open();
+            SqlDataAdapter _da = new SqlDataAdapter(_com);
+            _da.Fill(_dt);
+            _db.Close();
+
+            return new EducationalQualification
+            {
+                EducationalQualificationName = _dt.Columns[""].DefaultValue.ToString()
+            };
         }
         #endregion
 
@@ -227,10 +247,18 @@ FROM         Employees LEFT JOIN
         #endregion
 
         #region EducationalQualificationList_Functions
-        public DataTable SelectEducationalQualification()
+        public DataTable SelectEducationalQualification(int? page = 1, int? pageSize = 10, string EducationalQualificationName = null)
         {
-            _com.CommandText = @"SELECT EducationalQualificationID,
-                EducationalQualificationName FROM EducationalQualifications";
+            string _query = @"SELECT EducationalQualificationID,
+                EducationalQualificationName FROM EducationalQualifications
+                WHERE EducationalQualificationID NOT IN (SELECT TOP 
+(" + pageSize + "  * (" + page + @"  - 1)) EducationalQualificationID FROM EducationalQualifications)";
+
+            if (!string.IsNullOrEmpty(EducationalQualificationName))
+                _query += @" AND (EducationalQualificationName LIKE '%" + EducationalQualificationName +"%')";
+
+            _query += @" ORDER BY EducationalQualificationID DESC";
+            _com.CommandText = _query;
             SqlDataAdapter dataAd = new SqlDataAdapter(_com);
             DataTable dt = new DataTable();
             dataAd.Fill(dt);
@@ -266,7 +294,7 @@ FROM         Employees LEFT JOIN
                 State = _state,
                 FunctionName = MethodBase.GetCurrentMethod().Name,
                 ClassName = GetType().Name,
-                ErrorMessage = _ex.Message,
+                ErrorMessage = _ex.Message ?? string.Empty,
                 ErrorCode = _ex.GetHttpCode()
             };
         }

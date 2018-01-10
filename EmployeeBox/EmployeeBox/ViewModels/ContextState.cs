@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EmployeeBox.ViewModels
+﻿namespace EmployeeBox.ViewModels
 {
     public class ContextState
     {

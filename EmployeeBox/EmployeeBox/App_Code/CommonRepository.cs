@@ -7,20 +7,20 @@ namespace EmployeeBox.App_Code
 {
     public class CommonRepository
     {
-        internal DataTable ConvertIEnumerableToDataTable<TSource>(IEnumerable<TSource> model)
-        {
-            var props = typeof(TSource).GetProperties();
+        //internal DataTable ConvertIEnumerableToDataTable<TSource>(IEnumerable<TSource> model)
+        //{
+        //    var props = typeof(TSource).GetProperties();
 
-            var dt = new DataTable();
-            dt.Columns.AddRange(
-              props.Select(p => new DataColumn(p.Name, Nullable.GetUnderlyingType(
-                 p.PropertyType) ?? p.PropertyType)).ToArray());
+        //    var dt = new DataTable();
+        //    dt.Columns.AddRange(
+        //      props.Select(p => new DataColumn(p.Name, Nullable.GetUnderlyingType(
+        //         p.PropertyType) ?? p.PropertyType)).ToArray());
 
-            model.ToList().ForEach(
-              i => dt.Rows.Add(props.Select(p => p.GetValue(i, null)).ToArray())
-            );
+        //    model.ToList().ForEach(
+        //      i => dt.Rows.Add(props.Select(p => p.GetValue(i, null)).ToArray())
+        //    );
 
-            return dt;
-        }
+        //    return dt;
+        //}
     }
 }

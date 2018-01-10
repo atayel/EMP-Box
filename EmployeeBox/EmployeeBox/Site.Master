@@ -332,15 +332,8 @@
         <section id="left-navigation">
             <!--Left navigation user details start-->
             <div class="user-image">
-                <img src="assets/images/demo/avatar-80.png" alt="" />
-                <div class="user-online-status"><span class="user-status is-online  "></span></div>
+                <img src="/Content/images/demo/avatar-80.png" alt="" />
             </div>
-            <ul class="social-icon">
-                <li><a href="javascript:void(0)"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="javascript:void(0)"><i class="fa fa-github"></i></a></li>
-                <li><a href="javascript:void(0)"><i class="fa fa-bitbucket"></i></a></li>
-            </ul>
             <!--Left navigation user details end-->
 
             <!--Phone Navigation Menu icon start-->
@@ -364,7 +357,7 @@
                 </li>
                 <li>
                     <a href="#">
-                        <i class="fa fa-bar-users"></i><span>الموظفين</span>
+                        <i class="fa fa-users"></i><span>الموظفين</span>
                     </a>
                     <ul>
                         <li>

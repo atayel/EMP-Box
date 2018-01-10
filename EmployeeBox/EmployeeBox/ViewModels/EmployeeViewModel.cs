@@ -12,6 +12,10 @@ namespace EmployeeBox.ViewModels
 
         public string Photo { get; set; }
 
+        public string Address { get; set; }
+
+        public decimal? PhoneNumber { get; set; }
+
         public DateTime? HireDateFrom { get; set; }
 
         public DateTime? HireDateTo { get; set; }
@@ -20,6 +24,10 @@ namespace EmployeeBox.ViewModels
 
         public DateTime? JoinDateTo { get; set; }
 
+        public DateTime? BirthDate { get; set; }
+
+        public int? Year { get; set; }
+
         public double? EmployeeShareFrom { get; set; }
 
         public double? EmployeeShareTo { get; set; }
@@ -27,5 +35,8 @@ namespace EmployeeBox.ViewModels
         public int? EducationalQualifications { get; set; }
 
         public string EducationalQualificationName { get; set; }
+
+        public decimal? SubscriptionFee { get; set; }
+
     }
 }

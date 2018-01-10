@@ -10,7 +10,9 @@ namespace EmployeeBox.Views.Employee
         protected void Page_Load(object sender, EventArgs e)
         {
             _repository = new EmployeeRepository();
-
+            var model = _repository.FindEmployeeById(Convert.ToInt32(Request.QueryString["id"]));
+            employeeForm.DataSource = new object[] { model };
+            DataBind();
         }
     }
 }
